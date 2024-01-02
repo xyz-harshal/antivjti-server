@@ -2,7 +2,7 @@ import userModel from "../models/userSchema.js";
 
 export async function login(req,res){
 try{
-    console.log(req.body);
+    // console.log(req.body);
     let harshal=new userModel({
       email:req.body.email
     })
