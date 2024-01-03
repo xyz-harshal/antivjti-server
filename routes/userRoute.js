@@ -1,8 +1,7 @@
-import express from "express";
 import {Router} from "express";
-import {login} from "../controllers/userController.js";
-const router = Router(); // Use lowercase 'router' here
+import {login,register} from "../controllers/userController.js";
+const router = Router();
 
-router.post("/", login);
-
+router.post("/login", login);
+router.post("/register",register);
 export default router;
