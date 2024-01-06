@@ -7,21 +7,21 @@ let createToken=(_id)=>{
   return jwt.sign({_id},process.env.SECRET)
 }
 
-
 export async function login(req, res) {
   let { email, password } = req.body;
   try {
     let data = await userModel.findOne({ email: email })
     if (!data) {
-      res.json("NOemail")
+      res.json({error:{email:false,password:false}})
     }
     if (data) {
       let pass=bcrypt.compareSync(password,data.password)
       if (pass) {
-        res.json("loggedIN")
+        let token=createToken(data._id);
+        res.status(200).json({email,token,error:{email:true,password:true}})
       }
       else {
-        res.json("NOpassword");
+        res.json({error:{email:true,password:false}});
       }
     }
   }
@@ -36,8 +36,7 @@ export async function register(req, res) {
   try {
     let data = await userModel.findOne({ email:email })
     if (data) {
-      // throw Error("Username already in use")
-      res.json({status:"already in use"})
+      res.json({error:true})
     }
     if (!data) {
       //hashing and storing in DB
@@ -48,7 +47,7 @@ export async function register(req, res) {
       })
       await user.save();
       let token=createToken(user._id)
-      res.status(200).json({email,token});
+      res.status(200).json({email,token,error:false});
     }
   }
   catch (e) {

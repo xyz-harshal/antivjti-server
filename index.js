@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/userPost.js"
+import homeRoute from "./routes/homeRoute.js"
+import { auth } from "./middleware/auth.js";
 let app=express();
 const corsOption={
   origin :'http://localhost:3000',
@@ -14,6 +16,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cors(corsOption));
 
+// app.use(auth);
+app.use("/",homeRoute);
 app.use("/",userRoute);
 app.use("/",postRoute);
 try{
