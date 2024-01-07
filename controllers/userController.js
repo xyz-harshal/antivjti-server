@@ -2,7 +2,7 @@ import userModel from "../models/userSchema.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 const saltRounds=10
-
+import getRandomFruitsName from "random-fruits-name";
 let createToken=(_id)=>{
   return jwt.sign({_id},process.env.SECRET)
 }
@@ -39,11 +39,17 @@ export async function register(req, res) {
       res.json({error:true})
     }
     if (!data) {
-      //hashing and storing in DB
+      const batch = email.match(/(\d+)/)
+      const branch = email.match(/@(\w+)/)
+      const username=getRandomFruitsName()
+      // hashing and storing in DB
       const hash=bcrypt.hashSync(password,saltRounds);
       let user = new userModel({
         email:email,
-        password:hash
+        password:hash,
+        username:username,
+        batch:batch[0],
+        branch:branch[1]
       })
       await user.save();
       let token=createToken(user._id)

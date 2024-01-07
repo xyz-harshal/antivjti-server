@@ -6,7 +6,6 @@ import cors from "cors";
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/userPost.js"
 import mainAuth from "./routes/homeRoute.js"
-
 let app=express();
 const corsOption={
   origin :'http://localhost:3000',

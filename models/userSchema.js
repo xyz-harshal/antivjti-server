@@ -8,9 +8,20 @@ let userSchema=new mongoose.Schema({
   },
   password:{
     type:String,
-    required:true,
-    unique:true
-  }
+    required:true
+  },
+  username:{
+    type:String,
+    required:true
+  },
+  batch:{
+    type:Number,
+    required:true
+  },
+  branch:{
+    type:String,
+    require:true
+  },
 });
 
 export default mongoose.model('User',userSchema);
