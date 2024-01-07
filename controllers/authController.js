@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/userSchema.js";
-export async function homeAuthController(req, res) {
+export async function authController(req, res) {
     try {
         const authorizationHeader = req.headers['authorization'];
         if(!authorizationHeader){
@@ -10,10 +10,10 @@ export async function homeAuthController(req, res) {
             let response = jwt.verify(authorizationHeader, process.env.SECRET)
             let userId = await userModel.findOne({ _id: response._id })
             if (userId) {
-                res.json({active:true})
+                res.json({status:true})
             }
             else{
-                res.json({active:false})
+                res.json({status:false})
             }
         }
     }

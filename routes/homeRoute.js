@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { homeAuthController } from "../controllers/homeAuthController.js";
+import { authController } from "../controllers/authController.js";
 let router=Router();
 
-router.get("/homeAuth",homeAuthController);
+router.get("/mainAuth",authController);
 
 export default router;
