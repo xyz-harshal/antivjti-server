@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 let userSchema=new mongoose.Schema({
   email:{
