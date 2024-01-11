@@ -20,7 +20,7 @@ export async function post(req, res) {
   }
 }
 
-export async function get(req,res){
+export async function get(req,res ){
   try{
     let data=(await postModel.find({}));
     res.json(revArray(data));
