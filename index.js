@@ -6,6 +6,7 @@ import cors from "cors";
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/userPost.js"
 import mainAuth from "./routes/homeRoute.js"
+import voteRoute from "./routes/voteRoute.js"
 let app=express();
 const corsOption={
   origin :'http://localhost:3000',
@@ -18,6 +19,7 @@ app.use(cors(corsOption));
 app.use("/",mainAuth);
 app.use("/",userRoute);
 app.use("/",postRoute);
+app.use("/",voteRoute);
 try{
 mongoose.connect(process.env.MONGODB_URI)
   console.log(`database connected`)
