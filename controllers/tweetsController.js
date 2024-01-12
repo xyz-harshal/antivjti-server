@@ -6,7 +6,7 @@ import jwtVerify from "../utils/jwtVerify.js"
 export async function postTweets(req, res) {
   try {
     let userId=jwtVerify(req.body.userId)
-    let username=await userModel.findOne({_id:userId}).username;
+    let username=(await userModel.findOne({_id:userId})).username;
     let data = new postModel({
       userID: userId,
       post: req.body.post,

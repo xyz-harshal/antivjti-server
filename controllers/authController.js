@@ -18,6 +18,6 @@ export async function authController(req, res) {
         }
     }
     catch (e) {
-        res.status(401).json({ message: e.message });
+        res.status(401).json({status:false,message:e.message})
     }
 }
