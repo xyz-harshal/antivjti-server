@@ -2,6 +2,6 @@ import { Router } from "express";
 import { authController } from "../controllers/authController.js";
 let router=Router();
 
-router.get("/mainAuth",authController);
+router.get("/userAuth",authController);
 
 export default router;
