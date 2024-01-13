@@ -31,18 +31,19 @@ export async function get(req,res ){
 }
 export async function getSpecific(req,res){
   try{
-    let data=(await postModel.findOne(req.body))
-    res.json(data)
+    let data=await postModel.findOne(req.body);
+    console.log((data.upvoteIds.length));
+    res.json(data);
   }
   catch(e){
-    res.status(500).json({message:e.message})
+    res.status(500).json({message:e.message});
   }
 }
 
 export async function replySpecific(req,res){
   try{
-    let {userId,postId,reply,writterId} =req.body
-    let wId=jwt.verify(writterId,process.env.SECRET)
+    let {userId,postId,reply,writterId} =req.body;
+    let wId=jwt.verify(writterId,process.env.SECRET);
     let writterName=await userModel.findOne({_id:wId._id});
     let data=new replyModel({
       userId:userId,
@@ -50,7 +51,7 @@ export async function replySpecific(req,res){
       reply:reply,
       writterId:wId,
       writterName:writterName.username
-    })
+    });
     data.save();
     res.status(200).json("success");
   }
@@ -60,11 +61,11 @@ export async function replySpecific(req,res){
 }
 export async function getReplies(req,res){
   try{
-    let _id=req.body._id
-    let response=await replyModel.find({postId:_id})
-    res.json(revArray(response))
+    let _id=req.body._id;
+    let response=await replyModel.find({postId:_id});
+    res.json(revArray(response));
   }
   catch(e){
-    res.status(500).json({message:e.mesaage})
+    res.status(500).json({message:e.mesaage});
   }
 }
