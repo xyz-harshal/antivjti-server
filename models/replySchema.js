@@ -19,7 +19,21 @@ let replySchema=new mongoose.Schema({
     writterName:{
         type:String,
         required:true
-    }
+    },
+    upvoteIds: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          default: [],
+        },
+      ],
+      downvoteIds: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          default: [],
+        },
+      ],
 })
 
 export default mongoose.model('reply',replySchema)
