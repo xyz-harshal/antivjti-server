@@ -10,7 +10,8 @@ export async function postTweets(req, res) {
     let data = new postModel({
       userID: userId,
       post: req.body.post,
-      username:username
+      username:username,
+      img:req.body.img
     });
     data.save();
     res.status(200).json({status:"success"});

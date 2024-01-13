@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
 import cors from "cors";
+import bodyParser from "body-parser";
 
 import userRoute from "./routes/userRoute.js";
 import tweetRoute from "./routes/tweetRoute.js"
@@ -16,6 +17,8 @@ const corsOption = {
 }
 
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '5mb' }));
+
 app.use(express.json());
 app.use(cors(corsOption));
 
