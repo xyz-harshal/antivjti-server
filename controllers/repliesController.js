@@ -14,13 +14,14 @@ export async function getSpecificTweet(req, res) {
 }
 export async function replySpecific(req, res) {
     try {
-        let { userId, postId, reply, writterId } = req.body
+        let { userId, postId, reply, writterId,img } = req.body
         let wId = jwtVerify(writterId)
         let writterName = await userModel.findOne({ _id: wId });
         let data = new replyModel({
             userId: userId,
             postId: postId,
             reply: reply,
+            img:img,
             writterId: wId,
             writterName: writterName.username
         })

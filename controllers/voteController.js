@@ -70,7 +70,6 @@ export async function downVote(req, res) {
       }
     };
     await post.save();
-    console.log(post);
     await res.json(post);
   } else {
     try {
@@ -173,7 +172,6 @@ export async function downVoteReply1(req, res) {
       }
     };
     await post.save();
-    console.log(post);
     await res.json(post);
   } else {
     try {

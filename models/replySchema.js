@@ -12,6 +12,9 @@ let replySchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    img:{
+      type:String
+    },
     writterId:{
         type:String,
         required:true
