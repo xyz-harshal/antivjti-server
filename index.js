@@ -27,7 +27,9 @@ app.use("/", userRoute);
 app.use("/", tweetRoute);
 app.use("/",repliesRoute)
 app.use("/", voteRoute);
-
+app.get('/',(req,res)=>{
+  res.json({message:'hello'})
+})
 try {
   mongoose.connect(process.env.MONGODB_URI)
   console.log(`database connected`)
