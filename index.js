@@ -7,7 +7,6 @@ import bodyParser from "body-parser";
 import userRoute from "./routes/userRoute.js";
 import tweetRoute from "./routes/tweetRoute.js"
 import repliesRoute from "./routes/repliesRoute.js"
-import userAuth from "./routes/authRoute.js"
 import voteRoute from "./routes/voteRoute.js"
 
 let app = express();
@@ -21,8 +20,6 @@ app.use(bodyParser.json({ limit: '5mb' }));
 
 app.use(express.json());
 app.use(cors(corsOption));
-
-app.use("/", userAuth);
 app.use("/", userRoute);
 app.use("/", tweetRoute);
 app.use("/",repliesRoute)
