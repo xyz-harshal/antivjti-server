@@ -83,27 +83,54 @@ export async function downVote(req, res) {
   }
 }
 
-export async function Check(req, res){
+// export async function Check(req, res){
+//   const uidresponse = req.body.userID;
+//   const postID = req.body.postID;
+//   let userID = jwt.verify(uidresponse, process.env.SECRET)._id;
+//   try {
+//     var post = await postModel.findOne({ _id: postID });
+//     var user = await userModel.findOne({ _id: userID });
+//   } catch (e) {
+//     console.log(e.message);
+//     await res.status(500).json("error detected");
+//   }
+//   if (post.downvoteIds.includes(user._id)){
+//     res.json({value:-1})
+//   }
+//   else if (post.upvoteIds.includes(user._id)){
+//     res.json({value: 1})
+//   }
+//   else{
+//     res.json({value: 0})
+//   }
+// }
+export async function Check(req, res) {
   const uidresponse = req.body.userID;
   const postID = req.body.postID;
-  let userID = jwt.verify(uidresponse, process.env.SECRET)._id;
+  let userID;
   try {
+    userID = jwt.verify(uidresponse, process.env.SECRET)._id;
+    console.log(postID)
     var post = await postModel.findOne({ _id: postID });
     var user = await userModel.findOne({ _id: userID });
+
+    if (!post || !user) {
+      return res.json({ error: "Post or user not found" });
+    }
   } catch (e) {
     console.log(e.message);
-    await res.status(500).json("error detected");
+    return res.status(500).json({ error: "Internal server error" });
   }
-  if (post.downvoteIds.includes(user._id)){
-    res.json({value:-1})
-  }
-  else if (post.upvoteIds.includes(user._id)){
-    res.json({value: 1})
-  }
-  else{
-    res.json({value: 0})
+
+  if (post.downvoteIds && post.downvoteIds.includes(user._id)) {
+    res.json({ value: -1 });
+  } else if (post.upvoteIds && post.upvoteIds.includes(user._id)) {
+    res.json({ value: 1 });
+  } else {
+    res.json({ value: 0 });
   }
 }
+
 
 export async function upVoteReply1(req, res) {
   const uidresponse = req.body.userID;

@@ -16,7 +16,7 @@ const corsOption = {
 }
 
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.json({ limit: '2mb' }));
 
 app.use(express.json());
 app.use(cors(corsOption));
