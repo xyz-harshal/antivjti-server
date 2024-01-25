@@ -4,6 +4,6 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 const router=Router()
 
 router.post("/postEvents",authMiddleware,postTweets)
-router.get("/getTweets",getTweets)
+router.get("/getTweets",authMiddleware,getTweets)
 
 export default router
