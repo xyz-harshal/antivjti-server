@@ -30,6 +30,10 @@ let replySchema = new mongoose.Schema({
       default: [],
     },
   ],
+  date:{
+    type:Date,
+    default: Date.now
+  },
   downvoteIds: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
   img: {
     type: String,
   },
+  date:{
+    type:Date,
+    default: Date.now
+  },
   upvoteIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
