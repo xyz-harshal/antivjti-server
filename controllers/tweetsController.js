@@ -23,7 +23,7 @@ export async function postTweets(req, res) {
 
 export async function getTweets(req,res){
   try{
-    const authToken = req.headers['authorization'];
+const authToken = req.headers['authorization'];
     const userID = jwtVerify(authToken);
     let data=(await postModel.find({}));
     if(data.length>1){
