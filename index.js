@@ -12,7 +12,7 @@ import voteRoute from "./routes/voteRoute.js"
 let app = express();
 dotenv.config();
 const corsOption = {
-  origin: process.env.CLIENT_URL,
+  origin: 'https://antivjti.tech',
 }
 
 app.use(express.urlencoded({ extended: true }));
