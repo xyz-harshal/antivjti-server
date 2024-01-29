@@ -12,7 +12,7 @@ import voteRoute from "./routes/voteRoute.js"
 let app = express();
 dotenv.config();
 const corsOption = {
-  origin: 'https://anti-vjti.vercel.app',
+  origin: process.env.CLIENT_URL,
 }
 
 app.use(express.urlencoded({ extended: true }));
