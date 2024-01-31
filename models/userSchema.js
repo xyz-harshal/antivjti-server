@@ -14,15 +14,7 @@ let userSchema=new mongoose.Schema({
     type:String,
     required:true,
     unique:true
-  },
-  batch:{
-    type:Number,
-    required:true
-  },
-  branch:{
-    type:String,
-    require:true
-  },
-});
+  }
+})
 
-export default mongoose.model('User',userSchema);
+export default mongoose.model('User',userSchema)

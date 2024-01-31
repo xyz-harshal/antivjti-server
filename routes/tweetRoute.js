@@ -5,5 +5,4 @@ const router=Router()
 
 router.post("/postEvents",authMiddleware,postTweets)
 router.get("/getTweets",authMiddleware,getTweets)
-
 export default router
