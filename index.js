@@ -11,9 +11,12 @@ import voteRoute from "./routes/voteRoute.js"
 
 let app = express();
 dotenv.config();
+// const corsOption = {
+//   origin: ['https://www.antivjti.tech', 'https://antivjti.tech'],
+// }
 const corsOption = {
-  origin: ['https://www.antivjti.tech', 'https://antivjti.tech','http://localhost:3000'],
-}
+origin: ['https://www.antivjti.tech', 'https://antivjti.tech', 'http://localhost:3000'],
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '2mb' }));
