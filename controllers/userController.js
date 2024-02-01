@@ -11,26 +11,38 @@ let createToken = (_id) => {
 export async function login(req, res) {
   let { email, password } = req.body;
   try {
-    let data = await userModel.findOne({ email: email })
-    if (!data) {
-      res.json({ error: { email: false, password: false }})
+    let data_array = await userModel.find({});
+    if (!data_array) {
+      return res.status(500).json({ error: "Some error occurred" });
     }
-    if (data) {
-      let pass = bcrypt.compareSync(password, data.password)
-      if (pass) {
-        let token = createToken(data._id);
-        res.status(200).json({ email, token, error: { email: true, password: true } })
-      }
-      else {
-        res.json({ error: { email: true, password: false } })
+    let validUser = false;
+    for (let i = 0; i < data_array.length; i++) {
+      if (bcrypt.compareSync(email, data_array[i].email)) {
+        let pass = bcrypt.compareSync(password, data_array[i].password);
+        if (pass) {
+          validUser = true;
+          let token = createToken(data_array[i]._id);
+          res.status(200).json({
+            email,
+            token,
+            error: { email: true, password: true },
+          });
+          break;
+        } else {
+          res.json({ error: { email: true, password: false } });
+          return;
+        }
       }
     }
-  }
-  catch (e) {
-    console.log(e.message)
-    res.json({ status: e.message })
+    if (!validUser) {
+      res.json({ error: { email: false, password: false } });
+    }
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({ status: e.message });
   }
 }
+
 export async function register(req, res) {
   let { email, password } = req.body;
   try {
@@ -40,9 +52,10 @@ export async function register(req, res) {
     }
     if (!data) {
       const username = getRandomFruitsName()
+      let mail = bcrypt.hashSync(email, saltRounds)
       let pass = bcrypt.hashSync(password, saltRounds)
       let user = new userModel({
-        email: email,
+        email: mail,
         password: pass,
         username: username,
       })
@@ -74,7 +87,6 @@ export async function otpGenerate(req, res){
 
   trasport.sendMail(mailOptios,(error, info)=>{
     if(error){
-
       res.status(400).json({status:400, error:error})
     }else{
       console.log("Email sent "+info.response);
