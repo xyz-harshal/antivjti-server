@@ -46,11 +46,22 @@ export async function login(req, res) {
 export async function register(req, res) {
   let { email, password } = req.body;
   try {
-    let data = await userModel.findOne({ email: email })
-    if (data) {
-      res.json({ error: true })
+    let data_array = await userModel.find({})
+    if (!data_array) {
+      return res.status(500).json({ error: "Some error occurred" });
     }
-    if (!data) {
+    let validUser = false;
+    for (let i = 0; i < data_array.length; i++) {
+      if (bcrypt.compareSync(email, data_array[i].email)) {
+        validUser = true;
+        res.json({ error: true })
+        break;
+      }
+      else {
+        validUser = false;
+      }
+    }
+    if (!validUser) {
       const username = getRandomFruitsName()
       let mail = bcrypt.hashSync(email, saltRounds)
       let pass = bcrypt.hashSync(password, saltRounds)
@@ -61,7 +72,10 @@ export async function register(req, res) {
       })
       await user.save()
       let token = createToken(user._id)
-      res.status(200).json({ email,token, error: false })
+      res.status(200).json({ email, token, error: false })
+    }
+    else {
+      res.json({ error: true })
     }
   }
   catch (e) {
@@ -69,28 +83,27 @@ export async function register(req, res) {
   }
 }
 
-export async function otpGenerate(req, res){
-  const otp = Math.floor(100000+Math.random()*900000);
+export async function otpGenerate(req, res) {
+  const otp = Math.floor(100000 + Math.random() * 900000);
   const trasport = nodemailer.createTransport({
-    service:'gmail',
-    auth:{
-      user:process.env.EMAIL,
-      pass:process.env.PASS
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASS
     }
   });
-  const mailOptios={
-    from:process.env.EMAIL,
-    to:req.body.email,
-    subject:`OTP for Email Verification is: ${otp}`,
+  const mailOptios = {
+    from: process.env.EMAIL,
+    to: req.body.email,
+    subject: `OTP for Email Verification is: ${otp}`,
     html: `<h1>Your OTP is: ${otp}</h1>`
   }
-
-  trasport.sendMail(mailOptios,(error, info)=>{
-    if(error){
-      res.status(400).json({status:400, error:error})
-    }else{
-      console.log("Email sent "+info.response);
-      res.status(200).json({status:200, info, otp:otp})
+  trasport.sendMail(mailOptios, (error, info) => {
+    if (error) {
+      res.status(400).json({ status: 400, error: error })
+    } else {
+      console.log("Email sent " + info.response);
+      res.status(200).json({ status: 200, info, otp: otp })
     }
   })
 }
