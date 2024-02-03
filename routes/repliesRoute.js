@@ -1,9 +1,10 @@
 import {Router} from "express"
-import {getSpecificTweet,replySpecific,getReplies} from "../controllers/repliesController.js"
+import {getSpecificEvent,replySpecific,getReplies} from "../controllers/repliesController.js"
+import { authMiddleware } from "../middlewares/authMiddleware.js"
 let router=Router()
 
-router.post('/getSpecificTweet',getSpecificTweet)
-router.post('/reply',replySpecific)
-router.post('/getReplies',getReplies)
+router.post('/getSpecificEvent',authMiddleware,getSpecificEvent)
+router.post('/reply',authMiddleware,replySpecific)
+router.post('/getReplies',authMiddleware,getReplies)
 
 export default router

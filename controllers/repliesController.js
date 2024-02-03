@@ -1,12 +1,11 @@
 import postModel from "../models/postSchema.js";
-import userModel from "../models/userSchema.js";
 import replyModel from "../models/replySchema.js";
 import jwtVerify from "../utils/jwtVerify.js";
 
-export async function getSpecificTweet(req, res) {
+export async function getSpecificEvent(req, res) {
   try {
     let data = await postModel.findOne({ _id: req.body._id });
-    const userID = jwtVerify(req.body.userID);
+    const userID = req.user._id
     let voteData = 2;
     if (data.downvoteIds && data.downvoteIds.includes(userID)) {
       voteData = -1;
@@ -23,16 +22,14 @@ export async function getSpecificTweet(req, res) {
 }
 export async function replySpecific(req, res) {
   try {
-    let { userId, postId, reply, writterId, img } = req.body;
-    let wId = jwtVerify(writterId);
-    let writterName = await userModel.findOne({ _id: wId });
+    let { userId, postId, reply, img } = req.body
     let data = new replyModel({
       userId: userId,
       postId: postId,
       reply: reply,
       img: img,
-      writterId: wId,
-      writterName: writterName.username,
+      writterId: req.user._id,
+      writterName: req.user.username
     });
     data.save();
     let response = await postModel.findOne({ _id: postId });
@@ -50,7 +47,7 @@ export async function getReplies(req, res) {
     if (response.length > 1) {
       response = response.reverse();
     }
-    const userID = jwtVerify(req.body.userID);
+    const userID = req.user._id
     let voteData = response.map((e)=>{
       if (e.downvoteIds && e.downvoteIds.includes(userID)) {
         return -1;
@@ -59,7 +56,6 @@ export async function getReplies(req, res) {
       } else {
         return 0;
       }
-      
     });
     res.json({response, voteData});
   } catch (e) {

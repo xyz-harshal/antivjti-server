@@ -1,11 +1,11 @@
-import express from "express";
-import dotenv from 'dotenv';
-import mongoose from "mongoose";
-import cors from "cors";
-import bodyParser from "body-parser";
+import express from "express"
+import dotenv from 'dotenv'
+import mongoose from "mongoose"
+import cors from "cors"
+import bodyParser from "body-parser"
 
-import userRoute from "./routes/userRoute.js";
-import tweetRoute from "./routes/tweetRoute.js"
+import userRoute from "./routes/userRoute.js"
+import tweetRoute from "./routes/eventsRoute.js"
 import repliesRoute from "./routes/repliesRoute.js"
 import voteRoute from "./routes/voteRoute.js"
 
