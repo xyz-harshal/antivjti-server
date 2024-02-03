@@ -22,11 +22,7 @@ export async function login(req, res) {
         if (pass) {
           validUser = true;
           let token = createToken(data_array[i]._id);
-          res.status(200).json({
-            email,
-            token,
-            error: { email: true, password: true },
-          });
+          res.status(200).json({email,token,error: { email: true, password: true }})
           break;
         } else {
           res.json({ error: { email: true, password: false } });
@@ -102,7 +98,6 @@ export async function otpGenerate(req, res) {
     if (error) {
       res.status(400).json({ status: 400, error: error })
     } else {
-      console.log("Email sent " + info.response);
       res.status(200).json({ status: 200, info, otp: otp })
     }
   })

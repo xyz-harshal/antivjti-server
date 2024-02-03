@@ -6,4 +6,4 @@ router.post("/login", login);
 router.post("/register",register);
 router.post("/otpGenerate",otpGenerate);
 
-export default router;
+export default router
