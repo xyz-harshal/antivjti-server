@@ -14,11 +14,11 @@ dotenv.config();
 const corsOption = {
 origin: ['https://www.antivjti.tech','https://antivjti.tech'],
 }
+app.options('*', cors(corsOption));
+app.use(cors(corsOption));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '2mb' }));
-app.options('*', cors(corsOption));
 app.use(express.json());
-app.use(cors(corsOption));
 app.use("/",usernameRoute)
 app.use("/", userRoute);
 app.use("/", tweetRoute);
