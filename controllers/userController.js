@@ -24,10 +24,10 @@ export async function login(req, res) {
           validUser = true;
           let token = createToken(data_array[i]._id);
           res.status(200).json({ token, error: { email: true, password: true } })
-          break;
+          break
         } else {
           res.json({ error: { email: true, password: false } });
-          return;
+          return
         }
       }
     }
