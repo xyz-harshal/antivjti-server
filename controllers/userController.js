@@ -10,7 +10,7 @@ let createToken = (_id) => {
 }
 
 export async function login(req, res) {
-  let { email, password } = req.body;
+  let { email, password } = req.body
   try {
     let data_array = await userModel.find({});
     if (!data_array) {
@@ -42,7 +42,6 @@ export async function login(req, res) {
 
 export async function verify(req, res) {
   let { email } = req.body
-  let key = createToken(email)
   try {
     let data_array = await userModel.find({})
     let validUser = false
@@ -60,7 +59,7 @@ export async function verify(req, res) {
       }
     }
     if (!validUser) {
-      const otp = Math.floor(100000 + Math.random() * 900000);
+      let otp = Math.floor(100000 + Math.random() * 900000);
       const trasport = nodemailer.createTransport({
         service: 'gmail',
         auth: { user: process.env.EMAIL, pass: process.env.PASS }
@@ -71,11 +70,12 @@ export async function verify(req, res) {
         subject: `OTP for Email Verification is: ${otp}`,
         html: `<h1>Your OTP is: ${otp}</h1>`
       }
+      otp=createToken(otp)
       trasport.sendMail(mailOptios, (error) => {
         if (error) {
-          res.status(400).json({ problem: error })
+          res.status(400).json({error})
         } else {
-          res.status(200).json({ otp, error: false, key })
+          res.status(200).json({ otp,error: false })
         }
       })
     }
@@ -86,24 +86,24 @@ export async function verify(req, res) {
 }
 
 export async function register(req, res) {
-  let { email, password, key } = req.body
-  let authKey = jwtVerify(key)
+  let { email, password, incOtp,userOtp } = req.body
+  let authOtp = jwtVerify(incOtp)
   try {
-    if (authKey == email) {
+    if (authOtp == userOtp) {
       const username = getRandomFruitsName()
       let mail = bcrypt.hashSync(email, saltRounds)
       let pass = bcrypt.hashSync(password, saltRounds)
       let user = new userModel({
         email: mail,
         password: pass,
-        username: username,
+        username: username
       })
       await user.save()
       let token = createToken(user._id)
       res.status(200).json({ token, error: false })
     }
     else {
-      res.status(401).json({ message: 'not verified' })
+      res.json({ error: true})
     }
   }
   catch (e) {
