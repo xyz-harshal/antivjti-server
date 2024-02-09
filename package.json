@@ -23,6 +23,7 @@
     "mongoose": "^8.0.3",
     "nodemailer": "^6.9.9",
     "nodemon": "^3.0.2",
-    "random-fruits-name": "^1.10.0"
+    "random-fruits-name": "^1.10.0",
+    "zod": "^3.22.4"
   }
 }
