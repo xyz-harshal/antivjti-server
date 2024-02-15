@@ -89,8 +89,15 @@ export async function register(req, res) {
   let { email, password, incOtp,userOtp } = req.body
   let authOtp = jwtVerify(incOtp)
   try {
+    let data_array = await userModel.find({})
     if (authOtp == userOtp) {
       const username = getRandomFruitsName()
+      for(let i=0;i<data_array.length;i++){
+        if(data_array[i].username==username){
+          username = getRandomFruitsName()
+          break;
+        }
+      }
       let mail = bcrypt.hashSync(email, saltRounds)
       let pass = bcrypt.hashSync(password, saltRounds)
       let user = new userModel({
