@@ -17,7 +17,7 @@ origin: ['https://www.antivjti.tech','https://antivjti.tech'],
 app.options('*', cors(corsOption))
 app.use(cors(corsOption))
 app.use(express.urlencoded({ extended: true }))
-app.use(bodyParser.json({ limit: '2mb' }))
+app.use(bodyParser.json({ limit: '1.5mb' }))
 app.use(express.json())
 
 app.use("/",usernameRoute)
