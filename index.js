@@ -12,7 +12,7 @@ import usernameRoute from "./routes/usernameRoute.js"
 let app = express()
 dotenv.config()
 const corsOption = {
-origin: ['https://www.antivjti.tech','https://antivjti.tech'],
+origin: ['https://www.antivjti.tech','https://antivjti.tech','http://localhost:3000'],
 }
 app.options('*', cors(corsOption))
 app.use(cors(corsOption))

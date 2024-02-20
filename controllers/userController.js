@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken"
 const saltRounds = 10
 import getRandomFruitsName from "random-fruits-name"
 import nodemailer from 'nodemailer'
-import jwtVerify from "../utils/jwtVerify.js"
+// const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 let createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET)
 }
@@ -60,11 +61,11 @@ export async function verify(req, res) {
     }
     if (!validUser) {
       let otp = Math.floor(100000 + Math.random() * 900000);
-      const transport = nodemailer.createTransport({
+      let transport = nodemailer.createTransport({
         service: 'gmail',
         auth: { user: process.env.EMAIL, pass: process.env.PASS }
       })
-      const mailOptions = {
+      let mailOptions = {
         from: process.env.EMAIL,
         to: email,
         subject: `OTP for Email Verification is: ${otp}`,
@@ -77,7 +78,6 @@ export async function verify(req, res) {
           res.status(400).json({error})
         } else {
           res.status(200).json({ combinedHash,error: false })
-          console.log(combinedHash)
         }
       })
     }
@@ -90,17 +90,10 @@ export async function verify(req, res) {
 export async function register(req, res) {
   let { email, password,hashed,userOtp } = req.body
   let decodedValue = jwt.verify(hashed, process.env.SECRET).combinedValue;
-  const [decodedEmail, decodedOTP] = decodedValue.split(':');
+  let [decodedEmail, decodedOTP] = decodedValue.split(':');
   try {
-    let data_array = await userModel.find({})
     if (decodedOTP == userOtp && decodedEmail == email) {
-      const username = getRandomFruitsName()
-      for(let i=0;i<data_array.length;i++){
-        if(data_array[i].username==username){
-          username = getRandomFruitsName()
-          break;
-        }
-      }
+      let username = uniqueNamesGenerator({ dictionaries: [adjectives, animals] });
       let mail = bcrypt.hashSync(email, saltRounds)
       let pass = bcrypt.hashSync(password, saltRounds)
       let user = new userModel({

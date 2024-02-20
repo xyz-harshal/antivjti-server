@@ -5,9 +5,7 @@ export async function mainMiddleware(req,res,next){
             res.status(401).json({msg:"user unauthorized"})
             return
         }
-        else{
-            next()
-        }
+        else next() 
     }
     catch(e){
         res.status(500).json({error: e.message})

@@ -5,11 +5,11 @@ export async function authMiddleware(req, res, next) {
     try {
         const authToken = req.headers['authorization']
         if (!authToken) {
-            res.status(401).json({ message: 'unautharized user' })
+            res.status(401).json({ message: 'unauthorized user' })
         }
         let authId = jwtVerify(authToken)
         let user = await userModel.findOne({ _id: authId })
-        if (!user) return res.status(418).json({ message: 'lmao noob' })
+        if (!user) return res.status(418).json({ message: 'cant' })
         req.user = user
         next()
     }

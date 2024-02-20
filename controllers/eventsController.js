@@ -11,7 +11,7 @@ export async function postEvents(req, res) {
     res.status(200).json({ status: "success" })
   }
   catch (e) {
-    res.status(500).json(e.mesaage)
+    res.status(500).json(e.message)
   }
 }
 
@@ -23,13 +23,9 @@ export async function getEvents(req, res) {
       data = data.reverse()
     }
     let voteData = data.map((e) => {
-      if (e.downvoteIds && e.downvoteIds.includes(userID)) {
-        return -1
-      } else if (e.upvoteIds && e.upvoteIds.includes(userID)) {
-        return 1
-      } else {
-        return 0
-      }
+      if (e.downvoteIds && e.downvoteIds.includes(userID)) return -1
+      else if (e.upvoteIds && e.upvoteIds.includes(userID)) return 1
+      else return 0
     })
     res.status(200).json({ data, voteData })
   }
