@@ -5,5 +5,5 @@ import {mainMiddleware} from "../middlewares/mainMiddleware.js"
 const router=Router()
 
 router.post("/postEvents",mainMiddleware,authMiddleware,postEvents)
-router.get("/getEvents",mainMiddleware,authMiddleware,getEvents)
+router.get("/getEvents",authMiddleware,getEvents)
 export default router
